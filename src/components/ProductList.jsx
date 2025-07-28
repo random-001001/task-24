@@ -1,16 +1,15 @@
-import { useContext } from "react";
-import { CartContext } from "../context/CartContext";
-import "./styles.css";
-import { Link } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../features/cart/cartSlice';
+import { Link } from 'react-router-dom';
 
 const products = [
-  { name: "Nike Air Max", price: 7999 },
-  { name: "Adidas Ultraboost", price: 9999 },
-  { name: "Puma Running Shoes", price: 4999 },
+  { name: 'Nike Air Max', price: 7999 },
+  { name: 'Adidas Ultraboost', price: 9999 },
+  { name: 'Puma Running Shoes', price: 4999 },
 ];
 
 const ProductList = () => {
-  const { addToCart } = useContext(CartContext);
+  const dispatch = useDispatch();
 
   return (
     <div className="container">
@@ -21,7 +20,7 @@ const ProductList = () => {
           <div className="card" key={index}>
             <h3>{product.name}</h3>
             <p>₹{product.price}</p>
-            <button onClick={() => addToCart(product)}>Add to Cart</button>
+            <button onClick={() => dispatch(addToCart(product))}>Add to Cart</button>
           </div>
         ))}
       </div>

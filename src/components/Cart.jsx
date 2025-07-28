@@ -1,10 +1,10 @@
-import { useContext } from "react";
-import { CartContext } from "../context/CartContext";
-import { useNavigate } from "react-router-dom";
-import "./styles.css";
+import { useSelector, useDispatch } from 'react-redux';
+import { removeFromCart } from '../features/cart/cartSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
-  const { cartItems, removeFromCart } = useContext(CartContext);
+  const cartItems = useSelector(state => state.cart);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const total = cartItems.reduce((sum, item) => sum + item.price, 0);
@@ -19,13 +19,15 @@ const Cart = () => {
           {cartItems.map((item, index) => (
             <li key={index}>
               {item.name} - ₹{item.price}
-              <button className="remove" onClick={() => removeFromCart(index)}>❌</button>
+              <button className="remove" onClick={() => dispatch(removeFromCart(index))}>❌</button>
             </li>
           ))}
         </ul>
       )}
       <p><strong>Total:</strong> ₹{total}</p>
-      <button disabled={cartItems.length === 0} onClick={() => navigate("/payment")}>Proceed to Payment</button>
+      <button disabled={cartItems.length === 0} onClick={() => navigate("/payment")}>
+        Proceed to Payment
+      </button>
     </div>
   );
 };
